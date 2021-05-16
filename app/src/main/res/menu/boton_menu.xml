@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/tourFragment"
+        android:icon="@drawable/buscar"
+        android:title=""
+        />
+    <item android:id="@+id/reservasFragment"
+        android:icon="@drawable/reservar"
+        android:title=""
+        />
+    <item
+        android:id="@+id/favoritosFragment"
+        android:icon="@drawable/favoritos"
+        android:title=""
+        />
+    <item
+        android:id="@+id/loginFragment"
+        android:title=""
+        android:icon="@drawable/perfil"
+        />
+</menu>
