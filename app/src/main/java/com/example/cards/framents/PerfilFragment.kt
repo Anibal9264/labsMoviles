@@ -1,34 +1,60 @@
 package com.example.cards.framents
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64.*
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.navigation.findNavController
 import com.example.cards.R
+import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PerfilFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PerfilFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        sharedPreferences = activity?.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
+        val nombre = view.findViewById<TextView>(R.id.name)
+        nombre.text = sharedPreferences?.getString("nombre","Unknown")
+
+        val fechaN = view.findViewById<TextView>(R.id.fecha_nacimiento)
+        fechaN.text = sharedPreferences?.getString("fechaN","Unknown")
+
+        val email = view.findViewById<TextView>(R.id.email)
+        email.text = sharedPreferences?.getString("email","Unknown")
+
+        val pais = view.findViewById<TextView>(R.id.pais)
+        pais.text = sharedPreferences?.getString("pais","Unknown")
+
+        /*val foto = view.findViewById<CircleImageView>(R.id.profile)
+        val src = sharedPreferences?.getString("foto","Unknown")
+        foto.setImageBitmap(src?.let { convertString64ToImage(it) })*/
+
+        val salir = view.findViewById<Button>(R.id.salir)
+        salir.setOnClickListener{
+            sharedPreferences?.edit()?.clear()?.commit()
+            view.findNavController().
+            navigate(R.id.loginFragment)
         }
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +64,4 @@ class PerfilFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_perfil, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PerfilFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PerfilFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
