@@ -7,27 +7,27 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.cards.LoginFragment"
+        android:name="com.example.cards.framents.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/registroFragment"
-        android:name="com.example.cards.RegistroFragment"
+        android:name="com.example.cards.framents.RegistroFragment"
         android:label="fragment_registro"
         tools:layout="@layout/fragment_registro" />
     <fragment
         android:id="@+id/perfilFragment"
-        android:name="com.example.cards.PerfilFragment"
+        android:name="com.example.cards.framents.PerfilFragment"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
     <fragment
         android:id="@+id/reservasFragment"
-        android:name="com.example.cards.ReservasFragment"
+        android:name="com.example.cards.framents.ReservasFragment"
         android:label="fragment_reservas"
         tools:layout="@layout/fragment_reservas" />
     <fragment
         android:id="@+id/favoritosFragment"
-        android:name="com.example.cards.FavoritosFragment"
+        android:name="com.example.cards.framents.FavoritosFragment"
         android:label="fragment_favoritos"
         tools:layout="@layout/fragment_favoritos" />
     <fragment

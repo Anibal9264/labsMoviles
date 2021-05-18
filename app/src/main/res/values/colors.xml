@@ -9,8 +9,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_text">#585858</color>
+    <color name="incorrect">#F10202</color>
     <color name="text_gris">#9A9999</color>
     <color name="bg_gris">#C3C3C3</color>
     <color name="text_green">#088A08</color>
+    <color name="correct">#02FF02</color>
 
 </resources>
