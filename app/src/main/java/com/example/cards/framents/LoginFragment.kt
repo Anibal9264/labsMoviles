@@ -28,13 +28,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var BASE_URL: String = "http://77114218e7aa.ngrok.io/Tours/"
+    private var BASE_URL: String = "http://9b1362b91d5f.ngrok.io/Tours/"
     private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,6 +47,7 @@ class LoginFragment : Fragment() {
         val email =  view.findViewById<EditText>(R.id.email)
         val password =  view.findViewById<EditText>(R.id.password)
         val iniciar =  view.findViewById<Button>(R.id.iniciar)
+        val registrese = view.findViewById<Button>(R.id.registrese)
         iniciar.isEnabled = false
         email.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -97,8 +97,10 @@ class LoginFragment : Fragment() {
             verificar(email,password,view)
         }
 
-
-
+        registrese.setOnClickListener {
+            view.findNavController().
+            navigate(R.id.registroFragment)
+        }
 
 
     }
