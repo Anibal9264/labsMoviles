@@ -25,7 +25,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class RegistroFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var BASE_URL: String = "http://9b1362b91d5f.ngrok.io/Tours/"
+    private var BASE_URL: String = "http://9234acb89996.ngrok.io/Tours/"
     private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,7 +120,7 @@ class RegistroFragment : Fragment() {
 
             override fun onFailure(call: Call<UserDto>, t: Throwable) {
                 nombre.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
-                password.setError("Error al registrar")
+                nombre.setError("Error al registrar")
             }
 
             override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {

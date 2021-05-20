@@ -28,7 +28,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var BASE_URL: String = "http://9b1362b91d5f.ngrok.io/Tours/"
+    private var BASE_URL: String = "http://9234acb89996.ngrok.io/Tours/"
     private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
