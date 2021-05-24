@@ -28,7 +28,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var BASE_URL: String = "http://9234acb89996.ngrok.io/Tours/"
+    private var BASE_URL: String = "http://f9f9cf21afd3.ngrok.io/Tours/"
     private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,7 +136,7 @@ class LoginFragment : Fragment() {
             override fun onFailure(call: Call<UserDto>, t: Throwable) {
                 password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
                 email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
-                password.setError("Usuario o contraseña Incorrecta")
+                password.setError("Usuario o contraseña incorrecta")
                 email.setError("")
             }
 
