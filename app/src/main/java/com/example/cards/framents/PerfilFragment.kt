@@ -2,20 +2,21 @@ package com.example.cards.framents
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
-import android.util.Base64.*
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import com.example.cards.R
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.*
+import java.io.File
+import  java.util.Base64
 
 
 class PerfilFragment : Fragment() {
@@ -27,6 +28,7 @@ class PerfilFragment : Fragment() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences = activity?.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
@@ -42,9 +44,12 @@ class PerfilFragment : Fragment() {
         val pais = view.findViewById<TextView>(R.id.pais)
         pais.text = sharedPreferences?.getString("pais","Unknown")
 
-        /*val foto = view.findViewById<CircleImageView>(R.id.profile)
-        val src = sharedPreferences?.getString("foto","Unknown")
-        foto.setImageBitmap(src?.let { convertString64ToImage(it) })*/
+        val foto = view.findViewById<CircleImageView>(R.id.profile)
+        val Str = sharedPreferences?.getString("foto","Unknown")
+
+        val decoded = Base64.getDecoder().decode(Str)
+        val decodedImage = BitmapFactory.decodeByteArray(decoded, 0, decoded.size)
+        foto.setImageBitmap(decodedImage)
 
         val salir = view.findViewById<Button>(R.id.salir)
         salir.setOnClickListener{
@@ -63,5 +68,4 @@ class PerfilFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_perfil, container, false)
     }
-
 }

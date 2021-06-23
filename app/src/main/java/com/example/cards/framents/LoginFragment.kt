@@ -16,7 +16,6 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.cards.R
-import com.example.cards.TourFragment
 import com.example.cards.services.UserService
 import com.example.cards.services.dto.UserDto
 import retrofit2.Call
@@ -24,15 +23,15 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.File
+import java.util.*
+import java.util.Base64.*
 
 
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
-<<<<<<< Updated upstream
-    private var BASE_URL: String = "http://9234acb89996.ngrok.io/Tours/"
-=======
-    private var BASE_URL: String = "http://bba1951917e7.ngrok.io/Tours/"
->>>>>>> Stashed changes
+    private var BASE_URL: String = "http://369fee821fae.ngrok.io/Tours/"
+
     private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -134,7 +133,6 @@ class LoginFragment : Fragment() {
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
                 .create(UserService::class.java)
-        service.LoginUser(email.text,password.text)
         service.LoginUser(email.text, password.text).enqueue(object : Callback<UserDto> {
 
             override fun onFailure(call: Call<UserDto>, t: Throwable) {

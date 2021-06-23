@@ -62,7 +62,7 @@
                 android:transformPivotX="0dp" />
 
             <TextView
-                android:id="@+id/lugar"
+                android:id="@+id/duracion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-160dp"

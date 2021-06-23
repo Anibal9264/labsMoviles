@@ -20,15 +20,4 @@ class FindAdapter : RecyclerView.Adapter<FindViewHolder>() {
 
 class FindViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.card_find, parent, false)) {
-
-
-
-    init {
-
-    }
-
-    //fun bind(tour: Tour) {
-
-   // }
-
 }
