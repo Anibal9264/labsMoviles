@@ -138,7 +138,7 @@ class LoginFragment : Fragment() {
             override fun onFailure(call: Call<UserDto>, t: Throwable) {
                 password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
                 email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
-                password.setError("Usuario o contraseña Incorrecta")
+                password.setError("Usuario o contraseña incorrecta")
                 email.setError("")
             }
 
