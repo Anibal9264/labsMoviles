@@ -13,11 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.cards.R
 import com.example.cards.constantes.Constantes
 import com.example.cards.services.UserService
 import com.example.cards.services.dto.UserDto
+import com.example.cards.viewmodels.LoginViewModel
+import com.example.cards.viewmodels.RegistroViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +32,7 @@ class RegistroFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
     private var sharedPreferences: SharedPreferences? = null
+    private val model: RegistroViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +69,7 @@ class RegistroFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
             override fun afterTextChanged(s: Editable?) {
-                if (isEmailValid(email.text)) {
+                if (model.isEmailValid(email.text)) {
                     email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.correct), PorterDuff.Mode.SRC_ATOP);
                 } else {
                     email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
@@ -79,7 +84,7 @@ class RegistroFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
             override fun afterTextChanged(s: Editable?) {
-                if(isPassValid(password.text)){
+                if(model.isPassValid(password.text)){
                     password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.correct), PorterDuff.Mode.SRC_ATOP);
                 }else{
                     password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
@@ -95,43 +100,18 @@ class RegistroFragment : Fragment() {
 
     }
 
-    //mascara para email
-    fun isEmailValid(email: CharSequence?): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    //mascara para registro
-    fun isPassValid(password: Editable): Boolean {
-        val pattern = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}\$".toRegex()
-        val matches = pattern.matches(password)
-        if (matches)return true
-        return false
-    }
-
     fun verificar(nombre:EditText, apellidos: EditText, id: EditText, fechanac: EditText,
                   email: EditText, password: EditText, view: View) {
 
-        val service = Retrofit.Builder()
-                .baseUrl(Constantes.BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build()
-                .create(UserService::class.java)
-        service.RegistroUser(nombre.text, apellidos.text, id.text, fechanac.text, email.text, password.text)
-        service.RegistroUser(nombre.text, apellidos.text, id.text, fechanac.text, email.text, password.text).enqueue(object : Callback<UserDto> {
-
-            override fun onFailure(call: Call<UserDto>, t: Throwable) {
-                nombre.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
-                nombre.setError("Error al registrar")
-            }
-
-            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
+            model.Registro(nombre.text.toString(), apellidos.text.toString(), id.text.toString(), fechanac.text.toString(), email.text.toString(), password.text.toString())
+            model.registro.observe(viewLifecycleOwner, Observer {
                 sharedPreferences = activity?.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
                 var editor = sharedPreferences?.edit()
-                var nombre = response.body()?.nombreC
-                var fechaN = response.body()?.fecha_nacimiento
-                var email = response.body()?.email
-                var foto = response.body()?.foto
-                var pais = response.body()?.pais
+                var nombre = it.nombreC
+                var fechaN = it.fecha_nacimiento
+                var email = it.email
+                var foto = it.foto
+                var pais = it.pais
                 editor?.putString("nombre", nombre)
                 editor?.putString("fechaN", fechaN)
                 editor?.putString("email", email)
@@ -141,7 +121,11 @@ class RegistroFragment : Fragment() {
                 editor?.apply()
                 view.findNavController().
                 navigate(R.id.tourFragment)
-            }
-        })
+            })
+
+            model.isreg.observe(viewLifecycleOwner, Observer {
+                nombre.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
+                nombre.setError("Error al registrar")
+            })
     }
 }

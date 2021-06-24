@@ -16,11 +16,11 @@ interface UserService{
 
     @GET("?p=Registro")
     fun RegistroUser(
-        @Query("nombre") nombre: Editable,
-        @Query("apellidos") apellidos: Editable,
-        @Query("id") id: Editable,
-        @Query("fechanac") fechanac: Editable,
-        @Query("email") email: Editable,
-        @Query("password") password: Editable
+        @Query("nombre") nombre: String,
+        @Query("apellidos") apellidos: String,
+        @Query("id") id: String,
+        @Query("fechanac") fechanac: String,
+        @Query("email") email: String,
+        @Query("password") password: String
     ): Call<UserDto>
 }

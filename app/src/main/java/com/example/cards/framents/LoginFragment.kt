@@ -35,7 +35,6 @@ import java.util.Base64.*
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
 
-
     private var sharedPreferences: SharedPreferences? = null
     private val model: LoginViewModel by viewModels()
 
@@ -59,7 +58,7 @@ class LoginFragment : Fragment() {
         iniciar.isEnabled = false
         email.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if(isEmailValid(email.text) ||isPassValid(password.text) ){  iniciar.isEnabled = true}
+                if(model.isEmailValid(email.text) && model.isPassValid(password.text) ){  iniciar.isEnabled = true}
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -67,7 +66,7 @@ class LoginFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if(isEmailValid(email.text)){
+                if(model.isEmailValid(email.text)){
                     email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.correct), PorterDuff.Mode.SRC_ATOP);
                  }else{
                     email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
@@ -80,7 +79,7 @@ class LoginFragment : Fragment() {
 
         password.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                if(isEmailValid(email.text) ||isPassValid(password.text) ){  iniciar.isEnabled = true}
+                if(model.isEmailValid(email.text) && model.isPassValid(password.text) ){  iniciar.isEnabled = true}
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -88,9 +87,9 @@ class LoginFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-                if(isPassValid(password.text)){
+                if(model.isPassValid(password.text) && model.isEmailValid(email.text)){
                     password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.correct), PorterDuff.Mode.SRC_ATOP);
-
+                    iniciar.isEnabled = true
                 }else{
                     password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
                     password.setError("No cumple con los requisitos minimos")
@@ -112,25 +111,6 @@ class LoginFragment : Fragment() {
 
 
     }
-
-
-    /*AlertDialog.Builder(requireContext()).setTitle("valido")
-    .setMessage(email.text)
-    .setPositiveButton(android.R.string.ok) {_,_->}
-    .setIcon(android.R.drawable.ic_dialog_alert).show()*/
-
-    fun isEmailValid(email: CharSequence?): Boolean {
-        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    fun isPassValid(pass: Editable): Boolean {
-        val pattern = "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}\$".toRegex()
-        val matches = pattern.matches(pass)
-        if (matches)return true
-        return false
-    }
-
-
 
     fun verificar(email: EditText, password: EditText, view: View) {
 
@@ -171,7 +151,6 @@ class LoginFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
