@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.navigation.findNavController
 import com.example.cards.R
+import com.example.cards.constantes.Constantes
 import com.example.cards.services.UserService
 import com.example.cards.services.dto.UserDto
 import retrofit2.Call
@@ -25,11 +26,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class RegistroFragment : Fragment() {
     // TODO: Rename and change types of parameters
-<<<<<<< HEAD
-    private var BASE_URL: String = "http://369fee821fae.ngrok.io/Tours/"
-=======
-    private var BASE_URL: String = "http://f9f9cf21afd3.ngrok.io/Tours/"
->>>>>>> master
+
     private var sharedPreferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,7 +112,7 @@ class RegistroFragment : Fragment() {
                   email: EditText, password: EditText, view: View) {
 
         val service = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constantes.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
                 .create(UserService::class.java)

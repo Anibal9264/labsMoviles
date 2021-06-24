@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cards.constantes.Constantes
 import com.example.cards.services.TourService
 import com.example.cards.services.dto.TourDto
+import com.example.cards.viewmodels.TourViewmodel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,8 +23,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 
 class TourFragment : Fragment() {
-    private var BASE_URL: String = "http://369fee821fae.ngrok.io/Tours/"
-    private val Tours = mutableListOf<TourDto>()
+    private val model: TourViewmodel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,59 +36,27 @@ class TourFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val desdeF = view.findViewById<TextView>(R.id.desdeF)
+        val hastaF = view.findViewById<TextView>(R.id.hastaF)
+        val findtext = view.findViewById<TextView>(R.id.findtext)
+        val bBuscar = view.findViewById<Button>(R.id.buscarB)
 
-        var Recycler_View_Find = view.findViewById<RecyclerView>(R.id.RecycleviewOfFind)
-        Recycler_View_Find.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = FindAdapter()
+        var list_recycler_viewT = view.findViewById<RecyclerView>(R.id.RecycleviewOfTour)
+        model.getTours("", "", "",)
+        model.Tours.observe(viewLifecycleOwner, Observer {
+            list_recycler_viewT.apply {
+                layoutManager = LinearLayoutManager(activity)
+                adapter = ToursListAdapter(it)
+            }
+        })
+       bBuscar.setOnClickListener{
+           model.getTours(findtext.text.toString(), desdeF.text.toString(), hastaF.text.toString())
         }
 
-        BuscarTours("", "", "", view)
     }
 
     companion object {
         fun newInstance(): TourFragment = TourFragment()
     }
 
-    fun BuscarTours(find: String, desde: String, hasta: String, view: View) {
-        val service = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build()
-                .create(TourService::class.java)
-        service.SearchTour(find, desde, hasta).enqueue(object : Callback<Array<TourDto>> {
-
-            override fun onFailure(call: Call<Array<TourDto>>, t: Throwable) {
-
-            }
-
-            override fun onResponse(call: Call<Array<TourDto>>, response: Response<Array<TourDto>>) {
-
-                var data = response
-                var tours = data.body()
-                if (tours != null) {
-                    tours.forEach { tour ->
-
-                        Tours.add(
-                                TourDto(tour.title,
-                                        tour.puntuacion,
-                                        tour.duracion,
-                                        tour.precio,
-                                        tour.catOpiniones,
-                                        tour.img)
-                        )
-
-
-                    }
-                }
-
-                var list_recycler_viewT = view.findViewById<RecyclerView>(R.id.RecycleviewOfTour)
-                list_recycler_viewT.apply {
-                    layoutManager = LinearLayoutManager(activity)
-                    adapter = ToursListAdapter(Tours)
-                }
-            }
-
-        })
-    }
 }

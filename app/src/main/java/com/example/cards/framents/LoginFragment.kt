@@ -14,10 +14,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.cards.R
+import androidx.lifecycle.Observer
+import com.example.cards.constantes.Constantes
 import com.example.cards.services.UserService
 import com.example.cards.services.dto.UserDto
+import com.example.cards.viewmodels.LoginViewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,9 +34,10 @@ import java.util.Base64.*
 
 class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var BASE_URL: String = "http://369fee821fae.ngrok.io/Tours/"
+
 
     private var sharedPreferences: SharedPreferences? = null
+    private val model: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,37 +133,35 @@ class LoginFragment : Fragment() {
 
 
     fun verificar(email: EditText, password: EditText, view: View) {
-        val service = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build()
-                .create(UserService::class.java)
-        service.LoginUser(email.text, password.text).enqueue(object : Callback<UserDto> {
 
-            override fun onFailure(call: Call<UserDto>, t: Throwable) {
+        var emailV = email.text.toString()
+        var passwordV = password.text.toString()
+        model.Login(emailV, passwordV)
+        model.login.observe(viewLifecycleOwner, Observer {
+
+            sharedPreferences = activity?.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
+            var editor = sharedPreferences?.edit()
+            var nombre = it.nombreC
+            var fechaN = it.fecha_nacimiento
+            var email = it.email
+            var foto = it.foto
+            var pais = it.pais
+            editor?.putString("nombre", nombre)
+            editor?.putString("fechaN", fechaN)
+            editor?.putString("email", email)
+            editor?.putString("foto", foto)
+            editor?.putString("pais", pais)
+            editor?.putBoolean("log", true)
+            editor?.apply()
+            view.findNavController().navigate(R.id.tourFragment)
+
+        })
+        model.isLog.observe(viewLifecycleOwner, Observer {
+            if (it == false) {
                 password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
                 email.getBackground().mutate().setColorFilter(getResources().getColor(R.color.incorrect), PorterDuff.Mode.SRC_ATOP);
                 password.setError("Usuario o contraseña incorrecta")
-                email.setError("")
-            }
-
-            override fun onResponse(call: Call<UserDto>, response: Response<UserDto>) {
-                sharedPreferences = activity?.getSharedPreferences("PREFERENCES", Context.MODE_PRIVATE)
-                var editor = sharedPreferences?.edit()
-                var nombre = response.body()?.nombreC
-                var fechaN = response.body()?.fecha_nacimiento
-                var email = response.body()?.email
-                var foto = response.body()?.foto
-                var pais = response.body()?.pais
-                editor?.putString("nombre", nombre)
-                editor?.putString("fechaN", fechaN)
-                editor?.putString("email", email)
-                editor?.putString("foto", foto)
-                editor?.putString("pais", pais)
-                editor?.putBoolean("log", true)
-                editor?.apply()
-                view.findNavController().
-                navigate(R.id.tourFragment)
+                email.setError("Usuario o contraseña incorrecta")
             }
         })
     }

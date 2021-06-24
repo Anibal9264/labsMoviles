@@ -10,8 +10,8 @@ import retrofit2.http.Query
 interface UserService{
     @GET("?p=Login")
     fun LoginUser(
-            @Query("email") email: Editable,
-            @Query("password") pass: Editable
+            @Query("email") email: String,
+            @Query("password") pass: String
     ): Call<UserDto>
 
     @GET("?p=Registro")

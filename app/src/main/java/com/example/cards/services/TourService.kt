@@ -12,5 +12,5 @@ interface TourService {
             @Query("search") search: String,
             @Query("date1") date1: String,
             @Query("date2") date2: String
-    ): Call<Array<TourDto>>
+    ): Call<List<TourDto>>
 }
