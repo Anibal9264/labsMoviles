@@ -29,12 +29,12 @@
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@drawable/conchal" />
-        <ImageView
-            android:id="@+id/favoriteicon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/nofavorite" />
 
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
         <TextView
             android:id="@+id/avatarName"
             android:layout_width="wrap_content"
@@ -45,6 +45,15 @@
             android:textColor="@color/color_text"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+          <ImageView
+                android:id="@+id/favoriteicon"
+                android:layout_width="44dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="62dp"
+
+                android:src="@drawable/nofavorite" />
+        </TableRow>
         <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,8 +109,6 @@
                 android:textColor="@color/text_green"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
-
         </TableRow>
 
     </LinearLayout>
